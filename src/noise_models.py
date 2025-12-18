@@ -1,5 +1,5 @@
 from qutip import Qobj, sigmax
-from states import BB84States
+from src.states import BB84States
 
 def apply_bitflip_channel(rho: Qobj, p_noise: float) -> Qobj:
     if not (0.0 <= p_noise <= 1.0):

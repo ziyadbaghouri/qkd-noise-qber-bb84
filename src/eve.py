@@ -1,8 +1,8 @@
 import numpy as np
 from qutip import Qobj
 
-from measurement import measure_in_basis
-from states import prepare_density_matrix
+from src.measurement import measure_in_basis
+from src.states import prepare_density_matrix
 
 def intercept_resend(rho_in: Qobj, rng: np.random.Generator) -> Qobj:
     eve_basis = int(rng.integers(0, 2))              # random basis choice
