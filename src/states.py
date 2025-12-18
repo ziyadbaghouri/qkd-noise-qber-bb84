@@ -11,7 +11,6 @@ class BB84States:
     ket_minus = (ket0 - ket1).unit()
 
     # map (basis, bit) -> ket
-    # basis: 0 -> '+' ; 1 -> 'x'
     state = {
         (0, 0): ket0,
         (0, 1): ket1,
@@ -25,10 +24,10 @@ class BB84States:
         1: [ket_plus * ket_plus.dag(), ket_minus * ket_minus.dag()],
     }
 
+    # identity Matrix
     I2 = qeye(2)
 
+### Prepare the density matrix for a given basis and bit choosen by Alice
 def prepare_density_matrix(basis_id: int, bit: int):
-    """Return rho = |psi><psi| for the chosen (basis, bit)."""
-    from qutip import ket2dm
     psi = BB84States.state[(basis_id, bit)]
     return ket2dm(psi)
