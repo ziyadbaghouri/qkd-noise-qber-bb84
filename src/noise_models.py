@@ -1,12 +1,16 @@
-import numpy as np
+from qutip import Qobj, sigmax
+from states import BB84States
 
-### Simulate a channel where each transmitted bit flips with probability p_noise
-def apply_bitflip(bits: np.ndarray, p_noise: float, rng: np.random.Generator) -> np.ndarray:
-    bits = bits.astype(np.uint8, copy=True) 
-    flips = rng.random(bits.shape[0]) < p_noise 
-    bits[flips] ^= 1
-    return bits
+def apply_bitflip_channel(rho: Qobj, p_noise: float) -> Qobj:
+    if not (0.0 <= p_noise <= 1.0):
+        raise ValueError("p_noise must be in [0, 1]")
 
-### Simulate a depolarizing channel where each state looses its information with probability p_noise
-def depolarizing_mask(n: int, p_noise: float, rng: np.random.Generator) -> np.ndarray:
-    return rng.random(n) < p_noise
+    X = sigmax()
+    return (1 - p_noise) * rho + p_noise * (X * rho * X)
+
+
+def apply_depolarizing_channel(rho: Qobj, p_noise: float) -> Qobj:
+    if not (0.0 <= p_noise <= 1.0):
+        raise ValueError("p_noise must be in [0, 1]")
+
+    return (1 - p_noise) * rho + p_noise * (BB84States.I2 / 2)
